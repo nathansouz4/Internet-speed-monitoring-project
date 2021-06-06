@@ -87,6 +87,7 @@ def network_graphs():
 
 test_speed_network()
 df_speedtest()
+
 try:
     scheduler.run(blocking=True)
 except KeyboardInterrupt:
