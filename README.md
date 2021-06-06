@@ -87,13 +87,6 @@ Você também pode ver a lista de todos os [colaboradores](https://github.com/us
 
 Este projeto está sob a licença (sua licença) - veja o arquivo [LICENSE.md](https://github.com/usuario/projeto/licenca) para detalhes.
 
-## 🎁 Expressões de gratidão
-
-* Conte a outras pessoas sobre este projeto 📢
-* Convide alguém da equipe para uma cerveja 🍺 
-* Obrigado publicamente 🤓.
-* etc.
-
 
 ---
-⌨️ com ❤️ por [Armstrong Lohãns](https://gist.github.com/lohhans) 😊
+⌨️ com ❤️ por [Nathan Souza](https://github.com/nathansouz4) 😊
