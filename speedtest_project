@@ -6,8 +6,8 @@ from datetime import datetime
 import speedtest
 import matplotlib.pyplot as plt
 
-
 st = speedtest.Speedtest()
+# server 22461: Cabo Servicos de Telecomunicacoes LTDA
 servernames = [22461]
 
 scheduler = sched.scheduler()
@@ -23,21 +23,14 @@ down = []
 up = []
 pi = []
 excel_speedtest = pd.DataFrame()
-dados_speedtest = pd.DataFrame()
 
 
-# server 22461: Cabo Servicos de Telecomunicacoes LTDA
 # Interface do programa
 def print_header():
     """Exibe o cabeçalho da aplicação"""
     print('------------------------------------------------')
     print('           Teste - Velocidade Internet          ')
     print('------------------------------------------------')
-
-
-print(f'Author:{__author__}\n{__copyright__}\n')
-print_header()
-print('Para interromper o programa, pressione Crtl+C.\n')
 
 
 def test_internet_speed():
@@ -58,8 +51,8 @@ def test_internet_speed():
     pi.append(aux_ping)
     datetime.append(aux_datetime)
     # roda o comando de sched
-    print('\n O próximo teste será realizado em 50 segundos...\n')
-    scheduler.enter(delay=5, priority=0, action=test_internet_speed)
+    print(f'\n O próximo teste será realizado em {delay_time} segundos...\n')
+    scheduler.enter(delay=delay_time, priority=0, action=test_internet_speed)
 
 
 def df_speedtest():
@@ -74,7 +67,7 @@ def df_speedtest():
     # Junta os dois dataframe
     dados_speedtest = pd.concat([df_date_time, data_speeds], axis=1, join='inner')
     print(dados_speedtest.to_markdown())
-    scheduler.enter(delay=35, priority=1, action=df_speedtest)
+    scheduler.enter(delay=delay_time, priority=1, action=df_speedtest)
 
 
 def save_dataframe():
@@ -90,7 +83,6 @@ def save_dataframe():
     excel_speedtest.to_csv("dados_Speedtest.csv")
 
 
-#funcao para converter a saida srt p float 
 def magic():
     global down
     global up
@@ -125,6 +117,12 @@ def internet_graphs():
     print('Gerando gráficos...\n')
 
 
+print(f'Author:{__author__}\n{__copyright__}\n')
+print_header()
+print('Para interromper o programa, pressione Crtl+C.\n')
+
+delay_time = int(input(print('Digite o intervalo em segundos entre cada teste de velocidade de internet:')))
+
 test_internet_speed()
 df_speedtest()
 
@@ -135,4 +133,3 @@ except KeyboardInterrupt:
     save_dataframe()
     internet_graphs()
     print('Programa finalziado!')
-
