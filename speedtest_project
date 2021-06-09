@@ -7,10 +7,11 @@ import speedtest
 import matplotlib.pyplot as plt
 
 st = speedtest.Speedtest()
-# server 22461: Cabo Servicos de Telecomunicacoes LTDA
-servernames = [22461]
-
 scheduler = sched.scheduler()
+
+# server 22461: Cabo Servicos de Telecomunicacoes LTDA
+servernames = []
+st.get_servers()
 
 __author__ = "Nathan Souza"
 __copyright__ = "Copyright 2021, Monitoring internet speeds project"
@@ -19,9 +20,9 @@ __copyright__ = "Copyright 2021, Monitoring internet speeds project"
 datetime = []
 
 # inicializa as lista/variaveis que irão armazernar as velocidades medidas
-down = []
-up = []
-pi = []
+download = []
+upload = []
+ping = []
 excel_speedtest = pd.DataFrame()
 
 
@@ -46,9 +47,9 @@ def test_internet_speed():
     # Registra os horarios e dia da medição das velocidades de rede
     aux_datetime = time.ctime()
     # armazena numa lista
-    down.append(aux_download)
-    up.append(aux_upload)
-    pi.append(aux_ping)
+    download.append(aux_download)
+    upload.append(aux_upload)
+    ping.append(aux_ping)
     datetime.append(aux_datetime)
     # roda o comando de sched
     print(f'\n O próximo teste será realizado em {delay_time} segundos...\n')
@@ -57,7 +58,7 @@ def test_internet_speed():
 
 def df_speedtest():
     # Cria o dataframe com os dados de velocidades de rede registradas pelo programa
-    data_speeds = {'Download': down, 'Upload': up, 'Ping': pi}
+    data_speeds = {'Download': download, 'Upload': upload, 'Ping': ping}
     data_speeds = pd.DataFrame(data_speeds, columns=['Download', 'Upload', 'Ping'])
     # convertendo os dados de saida para float
     # data_speeds = data_speeds.apply(pd.to_numeric)
@@ -73,7 +74,7 @@ def df_speedtest():
 def save_dataframe():
     global excel_speedtest
     # Cria o dataframe com os dados de velocidades de rede registradas pelo programa
-    data_speeds = {'Download': down, 'Upload': up, 'Ping': pi}
+    data_speeds = {'Download': download, 'Upload': upload, 'Ping': ping}
     data_speeds = pd.DataFrame(data_speeds, columns=['Download', 'Upload', 'Ping'])
     # cria o dataframe de horarios de realizacao dos testes de velocidade
     date_time = {'Datetime': datetime, }
@@ -84,19 +85,22 @@ def save_dataframe():
 
 
 def magic():
-    global down
-    global up
-    global pi
+    global download
+    global upload
+    global ping
     ##Convertendo a lista para float
-    down = [float(i) for i in down]
-    up = [float(i) for i in up]
-    pi = [float(i) for i in pi]
+    download = [float(i) for i in download]
+    upload = [float(i) for i in upload]
+    ping = [float(i) for i in ping]
     return
 
 
 def internet_graphs():
+    mean_download = np.mean(download)
+    mean_upload = np.mean(upload)
+    mean_ping = np.mean(ping)
     plt.style.use("ggplot")
-    x_pi = len(pi)
+    x_pi = len(ping)
     # array com amostras das quantidades de testes de velocidade de rede realizados
     tests = np.linspace(start=0, stop=x_pi, num=x_pi)
     # criando as figuras
@@ -104,17 +108,25 @@ def internet_graphs():
     fig2, ax2 = plt.subplots(figsize=(10, 5))
     fig3, ax3 = plt.subplots(figsize=(10, 5))
     # plotando os graficos
-    ax1.plot(tests, down, color='r', label='Download Speed')
+    ax1.plot(tests, download, color='r', label='Download Speed. Média:{:.2f}'.format(mean_download))
     ax1.set(xlabel="Testes", ylabel="Velocidade de Download em Mb/s")
-    ax2.plot(tests, up, color='b', label=' Upload Speed')
+    ax2.plot(tests, upload, color='b', label='Upload Speed.Média:{:.2f}'.format(mean_upload))
     ax2.set(xlabel="Testes", ylabel="Velocidade de Upload em Mb/s")
-    ax3.plot(tests, pi, color='m', label='Ping (ms)')
+    ax3.plot(tests, ping, color='m', label='Ping (ms).Média:{:.2f}'.format(mean_ping))
     ax3.set(xlabel="Testes", ylabel="Ping (ms)")
+    plt.legend()
     fig1.savefig('Download')
     fig2.savefig('Upload')
     fig3.savefig('Ping')
     plt.show()
     print('Gerando gráficos...\n')
+
+def provedor_internet():
+    info = dict()
+    info = st.config
+    print('\nIP:', info['client']['ip'])
+    print('Provedor:', info['client']['isp'])
+    print('País: ', info['client']['country'])
 
 
 print(f'Author:{__author__}\n{__copyright__}\n')
@@ -123,6 +135,7 @@ print('Para interromper o programa, pressione Crtl+C.\n')
 
 delay_time = int(input(print('Digite o intervalo em segundos entre cada teste de velocidade de internet:')))
 
+provedor_internet()
 test_internet_speed()
 df_speedtest()
 
@@ -133,3 +146,4 @@ except KeyboardInterrupt:
     save_dataframe()
     internet_graphs()
     print('Programa finalziado!')
+
