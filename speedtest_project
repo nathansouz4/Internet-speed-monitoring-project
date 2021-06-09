@@ -90,7 +90,7 @@ def save_dataframe():
     excel_speedtest.to_csv("dados_Speedtest.csv")
 
 
-# arg x -> list
+#funcao para converter a saida srt p float 
 def magic():
     global down
     global up
