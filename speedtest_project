@@ -6,36 +6,47 @@ from datetime import datetime
 import speedtest
 import matplotlib.pyplot as plt
 
+
 st = speedtest.Speedtest()
 servernames = [22461]
 
 scheduler = sched.scheduler()
 
-# server 22461: Cabo Servicos de Telecomunicacoes LTDA
-# Interface do programa
-def print_header():
-    """Exibe o cabeçalho da aplicação"""
-    print('-----------------------------------------')
-    print('       Teste - Velocidade Internet       ')
-    print('-----------------------------------------\n\n')
-
-print_header()
-print('Testando a velocidade...\n')
+__author__ = "Nathan Souza"
+__copyright__ = "Copyright 2021, Monitoring internet speeds project"
 
 # inicializando a lista que ira armazenar os registros de dia/hora/mes/ano
 datetime = []
 
-# inicializa as lista para armazernar as velocidades medidas
+# inicializa as lista/variaveis que irão armazernar as velocidades medidas
 down = []
 up = []
 pi = []
+excel_speedtest = pd.DataFrame()
+dados_speedtest = pd.DataFrame()
 
-def test_speed_network():
+
+# server 22461: Cabo Servicos de Telecomunicacoes LTDA
+# Interface do programa
+def print_header():
+    """Exibe o cabeçalho da aplicação"""
+    print('------------------------------------------------')
+    print('           Teste - Velocidade Internet          ')
+    print('------------------------------------------------')
+
+
+print(f'Author:{__author__}\n{__copyright__}\n')
+print_header()
+print('Para interromper o programa, pressione Crtl+C.\n')
+
+
+def test_internet_speed():
+    print('\nTestando a velocidade...\n')
     aux_download = []
     aux_upload = []
     aux_pi = []
     aux_datetime = []
-    #calcula velocidades de rede
+    # calcula velocidades de rede
     aux_download = '{:.2f}'.format(st.download() / (10 ** 6))
     aux_upload = '{:.2f}'.format(st.upload() / (10 ** 6))
     aux_ping = st.results.ping
@@ -46,10 +57,28 @@ def test_speed_network():
     up.append(aux_upload)
     pi.append(aux_ping)
     datetime.append(aux_datetime)
-    #roda o comando de sched
-    scheduler.enter(delay=30, priority=-3, action=test_speed_network)
+    # roda o comando de sched
+    print('\n O próximo teste será realizado em 50 segundos...\n')
+    scheduler.enter(delay=5, priority=0, action=test_internet_speed)
+
 
 def df_speedtest():
+    # Cria o dataframe com os dados de velocidades de rede registradas pelo programa
+    data_speeds = {'Download': down, 'Upload': up, 'Ping': pi}
+    data_speeds = pd.DataFrame(data_speeds, columns=['Download', 'Upload', 'Ping'])
+    # convertendo os dados de saida para float
+    # data_speeds = data_speeds.apply(pd.to_numeric)
+    # cria o dataframe de horarios de realizacao dos testes de velocidade
+    date_time = {'Datetime': datetime, }
+    df_date_time = pd.DataFrame(date_time, columns=['Datetime'])
+    # Junta os dois dataframe
+    dados_speedtest = pd.concat([df_date_time, data_speeds], axis=1, join='inner')
+    print(dados_speedtest.to_markdown())
+    scheduler.enter(delay=35, priority=1, action=df_speedtest)
+
+
+def save_dataframe():
+    global excel_speedtest
     # Cria o dataframe com os dados de velocidades de rede registradas pelo programa
     data_speeds = {'Download': down, 'Upload': up, 'Ping': pi}
     data_speeds = pd.DataFrame(data_speeds, columns=['Download', 'Upload', 'Ping'])
@@ -57,12 +86,23 @@ def df_speedtest():
     date_time = {'Datetime': datetime, }
     df_date_time = pd.DataFrame(date_time, columns=['Datetime'])
     # Junta os dois dataframe
-    dados_concatenados = pd.concat([df_date_time, data_speeds], axis=1, join='inner')
-    print(dados_concatenados)
-    print('\n O próximo teste será realizado em 25 segundos...\n')
-    scheduler.enter(delay=35, priority=-1, action=df_speedtest)
+    excel_speedtest = pd.concat([df_date_time, data_speeds], axis=1, join='inner')
+    excel_speedtest.to_csv("dados_Speedtest.csv")
 
-def network_graphs():
+
+# arg x -> list
+def magic():
+    global down
+    global up
+    global pi
+    ##Convertendo a lista para float
+    down = [float(i) for i in down]
+    up = [float(i) for i in up]
+    pi = [float(i) for i in pi]
+    return
+
+
+def internet_graphs():
     plt.style.use("ggplot")
     x_pi = len(pi)
     # array com amostras das quantidades de testes de velocidade de rede realizados
@@ -74,7 +114,7 @@ def network_graphs():
     # plotando os graficos
     ax1.plot(tests, down, color='r', label='Download Speed')
     ax1.set(xlabel="Testes", ylabel="Velocidade de Download em Mb/s")
-    ax2.plot(tests, up, color='b', label='Upload Speed')
+    ax2.plot(tests, up, color='b', label=' Upload Speed')
     ax2.set(xlabel="Testes", ylabel="Velocidade de Upload em Mb/s")
     ax3.plot(tests, pi, color='m', label='Ping (ms)')
     ax3.set(xlabel="Testes", ylabel="Ping (ms)")
@@ -85,11 +125,14 @@ def network_graphs():
     print('Gerando gráficos...\n')
 
 
-test_speed_network()
+test_internet_speed()
 df_speedtest()
 
 try:
     scheduler.run(blocking=True)
 except KeyboardInterrupt:
-    print('Programa finalziado.')
-    network_graphs()
+    magic()
+    save_dataframe()
+    internet_graphs()
+    print('Programa finalziado!')
+
