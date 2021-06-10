@@ -41,9 +41,9 @@ def test_internet_speed():
     aux_pi = []
     aux_datetime = []
     # calcula velocidades de rede
-    aux_download = '{:.2f}'.format(st.download() / (10 ** 6))
-    aux_upload = '{:.2f}'.format(st.upload() / (10 ** 6))
-    aux_ping = st.results.ping
+    aux_download = float('{:.2f}'.format(st.download() / (10 ** 6)))
+    aux_upload = float('{:.2f}'.format(st.upload() / (10 ** 6)))
+    aux_ping = float(st.results.ping)
     # Registra os horarios e dia da medição das velocidades de rede
     aux_datetime = time.ctime()
     # armazena numa lista
@@ -60,8 +60,6 @@ def df_speedtest():
     # Cria o dataframe com os dados de velocidades de rede registradas pelo programa
     data_speeds = {'Download': download, 'Upload': upload, 'Ping': ping}
     data_speeds = pd.DataFrame(data_speeds, columns=['Download', 'Upload', 'Ping'])
-    # convertendo os dados de saida para float
-    # data_speeds = data_speeds.apply(pd.to_numeric)
     # cria o dataframe de horarios de realizacao dos testes de velocidade
     date_time = {'Datetime': datetime, }
     df_date_time = pd.DataFrame(date_time, columns=['Datetime'])
@@ -82,18 +80,6 @@ def save_dataframe():
     # Junta os dois dataframe
     excel_speedtest = pd.concat([df_date_time, data_speeds], axis=1, join='inner')
     excel_speedtest.to_csv("dados_Speedtest.csv")
-
-
-def magic():
-    global download
-    global upload
-    global ping
-    ##Convertendo a lista para float
-    download = [float(i) for i in download]
-    upload = [float(i) for i in upload]
-    ping = [float(i) for i in ping]
-    return
-
 
 def internet_graphs():
     mean_download = np.mean(download)
@@ -121,6 +107,7 @@ def internet_graphs():
     plt.show()
     print('Gerando gráficos...\n')
 
+
 def provedor_internet():
     info = dict()
     info = st.config
@@ -142,8 +129,6 @@ df_speedtest()
 try:
     scheduler.run(blocking=True)
 except KeyboardInterrupt:
-    magic()
     save_dataframe()
     internet_graphs()
     print('Programa finalziado!')
-
