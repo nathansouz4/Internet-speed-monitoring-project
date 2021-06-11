@@ -1,6 +1,6 @@
 # Monitoramento de velocidade de internet
 
-Este programa realiza o monitoramento de velocidade de internet, rodando um script que faz o teste de velocidade de rede a cada x minutos, armazena em um dataframe e, por fim, gera um gráfico das variações das velocidades de internet registradas pelos testes.
+Este programa realiza o monitoramento de velocidade de internet, possibilitando a visualização das oscilações da conexão com a internet.O teste de velocidade de conexão com a internet é feito a cada intervalo de tempo definido pelo usuário em segundos,e ao finalizar o período de monitoramento,é gerado gráficos das variações das velocidades de internet registradas pelos testes.
 
 ## 🚀 Começando
 
