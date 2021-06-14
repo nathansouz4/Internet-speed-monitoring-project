@@ -8,9 +8,6 @@ import matplotlib.pyplot as plt
 
 st = speedtest.Speedtest()
 scheduler = sched.scheduler()
-
-# server 22461: Cabo Servicos de Telecomunicacoes LTDA
-servernames = []
 st.get_servers()
 
 __author__ = "Nathan Souza"
@@ -36,11 +33,7 @@ def print_header():
 
 def test_internet_speed():
     print('\nTestando a velocidade...\n')
-    aux_download = []
-    aux_upload = []
-    aux_pi = []
-    aux_datetime = []
-    # calcula velocidades de rede
+    # calcula velocidades da internet
     aux_download = float('{:.2f}'.format(st.download() / (10 ** 6)))
     aux_upload = float('{:.2f}'.format(st.upload() / (10 ** 6)))
     aux_ping = float(st.results.ping)
@@ -52,7 +45,6 @@ def test_internet_speed():
     ping.append(aux_ping)
     datetime.append(aux_datetime)
     # roda o comando de sched
-    print(f'\n O próximo teste será realizado em {delay_time} segundos...\n')
     scheduler.enter(delay=delay_time, priority=0, action=test_internet_speed)
 
 
@@ -65,7 +57,8 @@ def df_speedtest():
     df_date_time = pd.DataFrame(date_time, columns=['Datetime'])
     # Junta os dois dataframe
     dados_speedtest = pd.concat([df_date_time, data_speeds], axis=1, join='inner')
-    print(dados_speedtest.to_markdown())
+    print(dados_speedtest.to_markdown(tablefmt="github"))
+    print(f'\n O próximo teste será realizado em {delay_time} segundos...\n')
     scheduler.enter(delay=delay_time, priority=1, action=df_speedtest)
 
 
@@ -81,6 +74,7 @@ def save_dataframe():
     excel_speedtest = pd.concat([df_date_time, data_speeds], axis=1, join='inner')
     excel_speedtest.to_csv("dados_Speedtest.csv")
 
+
 def internet_graphs():
     mean_download = np.mean(download)
     mean_upload = np.mean(upload)
@@ -93,14 +87,16 @@ def internet_graphs():
     fig1, ax1 = plt.subplots(figsize=(10, 5))
     fig2, ax2 = plt.subplots(figsize=(10, 5))
     fig3, ax3 = plt.subplots(figsize=(10, 5))
-    # plotando os graficos
+    # Plotando os graficos
     ax1.plot(tests, download, color='r', label='Download Speed. Média:{:.2f}'.format(mean_download))
     ax1.set(xlabel="Testes", ylabel="Velocidade de Download em Mb/s")
-    ax2.plot(tests, upload, color='b', label='Upload Speed.Média:{:.2f}'.format(mean_upload))
+    ax1.legend(loc='best')
+    ax2.plot(tests, upload, color='b', label='Upload Speed. Média:{:.2f}'.format(mean_upload))
     ax2.set(xlabel="Testes", ylabel="Velocidade de Upload em Mb/s")
-    ax3.plot(tests, ping, color='m', label='Ping (ms).Média:{:.2f}'.format(mean_ping))
+    ax2.legend(loc='best')
+    ax3.plot(tests, ping, color='m', label='Ping (ms). Média:{:.2f}'.format(mean_ping))
     ax3.set(xlabel="Testes", ylabel="Ping (ms)")
-    plt.legend()
+    ax3.legend(loc='best')
     fig1.savefig('Download')
     fig2.savefig('Upload')
     fig3.savefig('Ping')
@@ -109,18 +105,18 @@ def internet_graphs():
 
 
 def provedor_internet():
-    info = dict()
     info = st.config
     print('\nIP:', info['client']['ip'])
     print('Provedor:', info['client']['isp'])
-    print('País: ', info['client']['country'])
+    print('País:', info['client']['country'])
 
 
 print(f'Author:{__author__}\n{__copyright__}\n')
 print_header()
 print('Para interromper o programa, pressione Crtl+C.\n')
 
-delay_time = int(input(print('Digite o intervalo em segundos entre cada teste de velocidade de internet:')))
+delay_time = int(input('Digite o intervalo em segundos entre cada teste de velocidade de internet:'))
+
 
 provedor_internet()
 test_internet_speed()
