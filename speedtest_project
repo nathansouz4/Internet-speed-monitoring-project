@@ -1,14 +1,16 @@
 import sched
+import time
+
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import time
-from datetime import datetime
+
 import speedtest
-import matplotlib.pyplot as plt
 
 st = speedtest.Speedtest()
 scheduler = sched.scheduler()
-st.get_servers()
+st.get_best_server()
 
 __author__ = "Nathan Souza"
 __copyright__ = "Copyright 2021, Monitoring internet speeds project"
@@ -29,6 +31,29 @@ def print_header():
     print('------------------------------------------------')
     print('           Teste - Velocidade Internet          ')
     print('------------------------------------------------')
+    
+
+print(f'Author:{__author__}\n{__copyright__}\n')
+print_header()
+print('Para interromper o programa, pressione Crtl+C.\n')    
+
+
+def delay(): 
+    ok = False 
+    delay_time = 0 
+    while True:
+        delay_time = input('Digite o intervalo em segundos entre cada teste de velocidade de internet:')
+        if delay_time.isnumeric():
+            delay_time = int(delay_time)
+            ok = True
+        else: 
+            print('Digite apenas números!\n')
+        if ok:
+                break
+    return delay_time    
+
+
+delay_time = delay()
 
 
 def test_internet_speed():
@@ -57,7 +82,7 @@ def df_speedtest():
     df_date_time = pd.DataFrame(date_time, columns=['Datetime'])
     # Junta os dois dataframe
     dados_speedtest = pd.concat([df_date_time, data_speeds], axis=1, join='inner')
-    print(dados_speedtest.to_markdown(tablefmt="github"))
+    print(dados_speedtest)
     print(f'\n O próximo teste será realizado em {delay_time} segundos...\n')
     scheduler.enter(delay=delay_time, priority=1, action=df_speedtest)
 
@@ -110,21 +135,17 @@ def provedor_internet():
     print('Provedor:', info['client']['isp'])
     print('País:', info['client']['country'])
 
-
-print(f'Author:{__author__}\n{__copyright__}\n')
-print_header()
-print('Para interromper o programa, pressione Crtl+C.\n')
-
-delay_time = int(input('Digite o intervalo em segundos entre cada teste de velocidade de internet:'))
+                              
 
 
 provedor_internet()
 test_internet_speed()
 df_speedtest()
 
+
 try:
     scheduler.run(blocking=True)
 except KeyboardInterrupt:
     save_dataframe()
     internet_graphs()
-    print('Programa finalziado!')
+    print('Programa finalizado!')
