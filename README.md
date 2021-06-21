@@ -6,7 +6,7 @@ Este programa realiza o monitoramento de velocidade de internet, possibilitando 
 
 Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
 
-Consulte **Implantação** para saber como implantar o projeto.
+Consulte o artigo com o código comentado no **Medium** para saber como implantar o projeto.
 
 ### 📋 Pré-requisitos
 
