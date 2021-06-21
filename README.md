@@ -6,7 +6,6 @@ Este programa realiza o monitoramento de velocidade de internet, possibilitando 
 
 Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
 
-Consulte o artigo com o código comentado no **Medium** para saber como implantar o projeto.
 
 ### 📋 Pré-requisitos
 
@@ -47,17 +46,9 @@ Explique que eles verificam esses testes e porquê.
 Dar exemplos
 ```
 
-### ⌨️ E testes de estilo de codificação
-
-Explique que eles verificam esses testes e porquê.
-
-```
-Dar exemplos
-```
-
 ## 📦 Desenvolvimento
 
-Adicione notas adicionais sobre como implantar isso em um sistema ativo
+Consulte o artigo com o código comentado no **Medium** para saber como implantar o projeto.
 
 ## 🛠️ Construído com
 
