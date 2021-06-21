@@ -64,4 +64,4 @@ Adicione notas adicionais sobre como implantar isso em um sistema ativo
 * [Spyder](https://www.spyder-ide.org) - Ambiente de desenvolvimento utilizado
 
 ---
-⌨️ com ❤️ por [Nathan Souza](https://github.com/nathansouz4) 😊
+⌨️ com ❤️ por [Nathan Souza](https://github.com/nathansouz4) 
