@@ -31,7 +31,7 @@ pip installtime
 pip install matplotlib
 pip install numpy 
 pip install pandas
-import speedtest
+pip install speedtest-cli
 ```
 
 ## ⚙️ Executando os testes
