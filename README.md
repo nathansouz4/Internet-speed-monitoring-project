@@ -35,7 +35,6 @@ pip install speedtest-cli
 
 ## ⚙️ Executando os testes
 
-Explicar como executar os testes automatizados para este sistema.
 Interface de execução do terminal:
 
 ![Executando o programa](https://user-images.githubusercontent.com/47602108/123851606-c6441280-d8f1-11eb-8bab-f77348a7e5ba.png)
@@ -49,9 +48,6 @@ Após finalizar o programa pressionando Ctrl + C, é exibido na tela os graficos
 
 ![Download Speed](https://user-images.githubusercontent.com/47602108/123848082-add1f900-d8ed-11eb-92af-6d99acf3da0b.png)
 
-```
-Dar exemplos
-```
 
 ## 📦 Desenvolvimento
 
@@ -68,4 +64,4 @@ Consulte o artigo com o código comentado no **Medium** para saber como implanta
 Devido a limitações durante a implentação utilizando a API do Speedtest-cli, não foi possivel monitorar de forma assertiva a latência(ping). 
 
 ---
-⌨️ com ❤️ por [Nathan Souza](https://github.com/nathansouz4) 
+⌨️ por [Nathan Souza](https://github.com/nathansouz4) 
