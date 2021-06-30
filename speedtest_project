@@ -1,12 +1,12 @@
 import sched
 import time
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-
+import pyspeedtest
 import speedtest
 
+s = pyspeedtest.SpeedTest()
 st = speedtest.Speedtest()
 scheduler = sched.scheduler()
 st.get_best_server()
@@ -60,7 +60,7 @@ def test_internet_speed():
     # calcula velocidades da internet
     aux_download = float('{:.2f}'.format(st.download() / (10 ** 6)))
     aux_upload = float('{:.2f}'.format(st.upload() / (10 ** 6)))
-    aux_ping = float(st.results.ping)
+    aux_ping = float('{:.2f}'.format(s.ping()))
     # Registra os horarios e dia da medição das velocidades de rede
     aux_datetime = time.ctime()
     # armazena numa lista
@@ -132,10 +132,7 @@ def provedor_internet():
     info = st.config
     print('\nIP:', info['client']['ip'])
     print('Provedor:', info['client']['isp'])
-    print('País:', info['client']['country'])
-
-                              
-
+    print('País:', info['client']['country'])                            
 
 provedor_internet()
 test_internet_speed()
