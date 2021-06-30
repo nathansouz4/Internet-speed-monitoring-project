@@ -60,4 +60,4 @@ Consulte o artigo com o código comentado no **Medium** para saber como implanta
 * [Spyder](https://www.spyder-ide.org) - Ambiente de desenvolvimento utilizado
 
 ---
-⌨️ por [Nathan Souza](https://github.com/nathansouz4) 
+💻 por [Nathan Souza](https://github.com/nathansouz4) 
