@@ -59,9 +59,5 @@ Consulte o artigo com o código comentado no **Medium** para saber como implanta
 
 * [Spyder](https://www.spyder-ide.org) - Ambiente de desenvolvimento utilizado
 
-## 🛠️ Melhorias
- 
-Devido a limitações durante a implentação utilizando a API do Speedtest-cli, não foi possivel monitorar de forma assertiva a latência(ping). 
-
 ---
 ⌨️ por [Nathan Souza](https://github.com/nathansouz4) 
