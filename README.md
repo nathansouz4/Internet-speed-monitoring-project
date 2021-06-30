@@ -39,6 +39,9 @@ Interface de execução do terminal:
 
 ![Executando o programa](https://user-images.githubusercontent.com/47602108/123851606-c6441280-d8f1-11eb-8bab-f77348a7e5ba.png)
 
+* Unidades:
+* Download e Upload : Mb/s
+* Latência(ping) : ms(milisegundos)
 
 ### 🔩 Analisando os testes de ponta a ponta
 
