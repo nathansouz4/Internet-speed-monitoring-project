@@ -47,9 +47,11 @@ Interface de execução do terminal:
 
 Após finalizar o programa pressionando Ctrl + C, é exibido na tela os graficos para melhor visualização da variação das velocidades de internet no intervalo analisado.
 
-![upload speed](https://user-images.githubusercontent.com/47602108/123847969-8b3fe000-d8ed-11eb-91e1-4c4ea87790cc.png)
+![Download Speed](https://user-images.githubusercontent.com/47602108/124629411-cbf0a980-de57-11eb-84a1-11c51f856158.png)
 
-![Download Speed](https://user-images.githubusercontent.com/47602108/123848082-add1f900-d8ed-11eb-92af-6d99acf3da0b.png)
+![Upload Speed](https://user-images.githubusercontent.com/47602108/124629426-ceeb9a00-de57-11eb-8199-2a19aa3dbeca.png)
+
+![Ping](https://user-images.githubusercontent.com/47602108/124629496-e1fe6a00-de57-11eb-9d7e-6bb6d9744300.png)
 
 
 ## 📦 Desenvolvimento
